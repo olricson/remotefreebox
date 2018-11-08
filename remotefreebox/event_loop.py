@@ -1,6 +1,6 @@
 import time
 import select
-
+import socket
 
 class event_source(object):
     def __init__(self, callback, args=None):
@@ -21,7 +21,10 @@ class event_source(object):
 class event_loop(object):
     def __init__(self):
         self.events = []
-        self.objects = {}
+        self.objects = {socket.socket(socket.AF_INET, socket.SOCK_DGRAM): (self.dummy_callback, None)}
+
+    def dummy_callback(self):
+        pass
 
     def add(self, event):
         if event not in self.events:
